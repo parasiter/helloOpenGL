@@ -54,6 +54,8 @@
 		EE76998D239DF85E00AD5B53 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		EE76998F239E01CA00AD5B53 /* sample.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample.vs; sourceTree = "<group>"; };
 		EE769990239E021600AD5B53 /* sample.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample.fs; sourceTree = "<group>"; };
+		EEA2C85923A244E600FF4AA1 /* light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light.vs; sourceTree = "<group>"; };
+		EEA2C85A23A244F700FF4AA1 /* light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light.fs; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,8 @@
 			isa = PBXGroup;
 			children = (
 				EE76998F239E01CA00AD5B53 /* sample.vs */,
+				EEA2C85923A244E600FF4AA1 /* light.vs */,
+				EEA2C85A23A244F700FF4AA1 /* light.fs */,
 				EE769990239E021600AD5B53 /* sample.fs */,
 			);
 			path = shaders;
