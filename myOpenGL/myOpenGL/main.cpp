@@ -62,6 +62,29 @@ float vertices[] = {
     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
+
+struct Material{
+    glm::vec3 ambientColor;
+    glm::vec3 diffColor;
+    glm::vec3 specColor;
+    float shininess;
+    Material(glm::vec3 ambient,glm::vec3 diff,glm::vec3 spec,float specF){
+        ambientColor = ambient;
+        diffColor = diff;
+        specColor = spec;
+        shininess = specF;
+    }
+};
+struct LightFactor{
+    glm::vec3 ambientFactor;
+    glm::vec3 diffFactor;
+    glm::vec3 specFactor;
+    LightFactor(glm::vec3 ambient,glm::vec3 diff,glm::vec3 spec){
+        ambientFactor = ambient;
+        diffFactor = diff;
+        specFactor = spec;
+    }
+};
 //
 //float vertices[] = {
 //    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
@@ -154,10 +177,53 @@ int main()
     // 编译链接shader
     Shader shaderProgram("shaders/sample.vs","shaders/sample.fs");
     shaderProgram.use();
-    shaderProgram.setInt("texture1",0);
-    shaderProgram.setInt("texture2",1);
-    shaderProgram.setVec3("lightColor", glm::vec3(1.0f,1.0f,1.0f));
     shaderProgram.setVec3("lightPos",glm::vec3(1.0f,  1.0f,  -4.0f));
+    Material material(glm::vec3(1.0f,0.5f,0.0f),glm::vec3(1.0f,0.5f,0.0f),glm::vec3(0.5,0.5,0.5),32.0f); 
+//    shaderProgram.setVec3("ambientColor",material.ambientColor);
+//    shaderProgram.setVec3("diffColor",material.diffColor);
+//    shaderProgram.setVec3("specColor",material.specColor);
+//    shaderProgram.setFloat("shininess",material.shininess);
+
+    LightFactor lightFactor(glm::vec3(0.15f,0.15f,0.15f),glm::vec3(0.85f,0.85f,0.85f),glm::vec3(0.,0.8,1.0f));
+    shaderProgram.setVec3("ambientFactor",lightFactor.ambientFactor);
+    shaderProgram.setVec3("diffFactor",lightFactor.diffFactor);
+    shaderProgram.setVec3("specFactor",lightFactor.specFactor);
+
+    // 创建uniform block
+     {
+         GLuint uniformMaterial = glGetUniformBlockIndex(shaderProgram.ID,"material");
+         GLint blockSize;
+         glGetActiveUniformBlockiv(shaderProgram.ID,uniformMaterial,GL_UNIFORM_BLOCK_DATA_SIZE,&blockSize);
+         std::cout<< "uniformsInfo: "<< uniformMaterial << " " << blockSize << std::endl;
+         const char* uniformNames[] = {
+             "ambientColor",
+             "diffColor",
+             "specColor",
+             "shininess"
+         };
+         GLuint indices[4];
+         glGetUniformIndices(shaderProgram.ID,4,uniformNames,indices);
+         GLint offSet[4], size[4];
+         glGetActiveUniformsiv(shaderProgram.ID,4,indices,GL_UNIFORM_OFFSET,offSet);
+         glGetActiveUniformsiv(shaderProgram.ID,4,indices,GL_UNIFORM_SIZE,size);
+         for (size_t i = 0; i < 4; i++)
+         {
+             std::cout<<"size[" << i << "] = " << size[i] << std::endl;
+         }
+        
+         GLvoid *buffer = malloc(blockSize);
+         
+         memcpy((char *)buffer + offSet[0],glm::value_ptr(material.ambientColor),3 * sizeof(float));
+         memcpy((char *)buffer + offSet[1],glm::value_ptr(material.diffColor),3 * sizeof(float));
+         memcpy((char *)buffer + offSet[2],glm::value_ptr(material.specColor),3 * sizeof(float));
+         memcpy((char *)buffer + offSet[3],&material.shininess,1 * sizeof(float));
+
+         GLuint materialBuffer;
+         glGenBuffers(1,&materialBuffer);
+         glBindBuffer(GL_UNIFORM_BUFFER,materialBuffer);
+         glBufferData(GL_UNIFORM_BUFFER,blockSize,buffer,GL_STATIC_DRAW);
+         glBindBufferBase(GL_UNIFORM_BUFFER,uniformMaterial,materialBuffer);
+     }
     
     Shader lightShader("shaders/light.vs","shaders/light.fs");
     
@@ -233,7 +299,7 @@ int main()
 
         // render
         // ------
-        glClearColor(0.f, 0.f, 0.f, 1.0f);
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         
         glActiveTexture(GL_TEXTURE0);

@@ -9,7 +9,13 @@
 #ifndef macro_hpp
 #define macro_hpp
 
-#define ROOT_PATH "/Users/bole/client/helloOpenGL/myOpenGL/myOpenGL/"
+#define MAC_HOME
+
+#ifdef MAC_HOME
+    #define ROOT_PATH "/Users/wufan/client/helloOpenGL/myOpenGL/myOpenGL/"
+#else
+    #define ROOT_PATH "/Users/bole/client/helloOpenGL/myOpenGL/myOpenGL/"
+#endif
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
