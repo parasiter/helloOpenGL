@@ -13,7 +13,7 @@ unsigned int compileShader(const char* shaderContent, int shaderType)
     int shader;
     if (shaderType == VERT_SHADER )
         shader = glad_glCreateShader(GL_VERTEX_SHADER);
-    else if (shaderType == FRAG_SHADER)
+    else if(shaderType == FRAG_SHADER)
         shader = glad_glCreateShader(GL_FRAGMENT_SHADER);
     else
         std::cout << "ERROR::SHADER::::INVALID_SHADER_TYPE\n" << std::endl;

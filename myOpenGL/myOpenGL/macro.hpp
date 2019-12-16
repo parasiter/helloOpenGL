@@ -9,7 +9,7 @@
 #ifndef macro_hpp
 #define macro_hpp
 
-#define MAC_HOME
+//#define MAC_HOME
 
 #ifdef MAC_HOME
     #define ROOT_PATH "/Users/wufan/client/helloOpenGL/myOpenGL/myOpenGL/"

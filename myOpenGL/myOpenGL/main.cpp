@@ -8,6 +8,7 @@
 #include "Shader.hpp"
 #include "macro.hpp"
 #include "Camera.hpp"
+#include "Model.hpp"
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -19,49 +20,6 @@ const unsigned int SCR_HEIGHT = 600;
 
 unsigned int VAO,VBO, VEO;
 
-float vertices[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    
-    0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-    0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-    0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-    
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-    0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-    0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-    
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-};
 
 struct Material{
     glm::vec3 ambientColor;
@@ -85,62 +43,6 @@ struct LightFactor{
         specFactor = spec;
     }
 };
-//
-//float vertices[] = {
-//    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-//    0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-//    0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-//    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-//    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-//    0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-//    0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-//    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f
-//};
-//
-//unsigned int indices[] = {
-//    0,1,2,
-//    2,3,0,
-//    4,5,6,
-//    6,7,4,
-//    7,3,0,
-//    0,4,7,
-//    6,2,1,
-//    1,5,6,
-//    0,1,5,
-//    5,4,0,
-//    3,2,6,
-//    6,7,3
-//};
-
-void initVertexData ()
-{
-//
-    glad_glGenBuffers(1,&VBO);
-    glad_glGenVertexArrays(1,&VAO);
-    glad_glBindVertexArray(VAO);
-    glad_glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glad_glBufferData(GL_ARRAY_BUFFER,sizeof(vertices),vertices,GL_STATIC_DRAW);
-    glad_glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)0);
-//    glad_glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,8*sizeof(float),(void*)(3 *sizeof(float)));
-    glad_glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,6*sizeof(float),(void*)(3*sizeof(float)));
-    
-    glad_glEnableVertexAttribArray(0);
-    glad_glEnableVertexAttribArray(1);
-//    glad_glEnableVertexAttribArray(2);
-    
-//    glad_glGenBuffers(1,&VEO);
-//    glad_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,VEO);
-//    glad_glBufferData(GL_ELEMENT_ARRAY_BUFFER,sizeof(indices),indices,GL_STATIC_DRAW);
-}
-
-unsigned int lightVAO;
-void initLight(){
-    glGenVertexArrays(1,&lightVAO);
-    glBindVertexArray(lightVAO);
-    glBindBuffer(GL_ARRAY_BUFFER,VBO);
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,6*sizeof(float), (void*) 0);
-    glEnableVertexAttribArray(0);
-}
 
 int main()
 {
@@ -174,113 +76,57 @@ int main()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
     }
+    
+    Camera camera(glm::radians(45.0f),800.0f/450.0f, 0.1f, 100.0f);
+    camera.setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
     // 编译链接shader
     Shader shaderProgram("shaders/sample.vs","shaders/sample.fs");
     shaderProgram.use();
-    shaderProgram.setVec3("lightPos",glm::vec3(1.0f,  1.0f,  -4.0f));
-    Material material(glm::vec3(1.0f,0.5f,0.0f),glm::vec3(1.0f,0.5f,0.0f),glm::vec3(0.5,0.5,0.5),32.0f); 
-//    shaderProgram.setVec3("ambientColor",material.ambientColor);
-//    shaderProgram.setVec3("diffColor",material.diffColor);
-//    shaderProgram.setVec3("specColor",material.specColor);
-//    shaderProgram.setFloat("shininess",material.shininess);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+    glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(0.0,0.0,-10.0f));
+    shaderProgram.setMat4("projection", projection);
+    shaderProgram.setMat4("view", view);
 
-    LightFactor lightFactor(glm::vec3(0.15f,0.15f,0.15f),glm::vec3(0.85f,0.85f,0.85f),glm::vec3(0.,0.8,1.0f));
-    shaderProgram.setVec3("ambientFactor",lightFactor.ambientFactor);
-    shaderProgram.setVec3("diffFactor",lightFactor.diffFactor);
-    shaderProgram.setVec3("specFactor",lightFactor.specFactor);
+    // render the loaded model
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+    model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+    shaderProgram.setMat4("model", model);
+    
+    Model _model("/Users/bole/client/helloOpenGL/myOpenGL/myOpenGL/resource/nanosuit.obj");
 
-    // 创建uniform block
-     {
-         GLuint uniformMaterial = glGetUniformBlockIndex(shaderProgram.ID,"material");
-         GLint blockSize;
-         glGetActiveUniformBlockiv(shaderProgram.ID,uniformMaterial,GL_UNIFORM_BLOCK_DATA_SIZE,&blockSize);
-         std::cout<< "uniformsInfo: "<< uniformMaterial << " " << blockSize << std::endl;
-         const char* uniformNames[] = {
-             "ambientColor",
-             "diffColor",
-             "specColor",
-             "shininess"
-         };
-         GLuint indices[4];
-         glGetUniformIndices(shaderProgram.ID,4,uniformNames,indices);
-         GLint offSet[4], size[4];
-         glGetActiveUniformsiv(shaderProgram.ID,4,indices,GL_UNIFORM_OFFSET,offSet);
-         glGetActiveUniformsiv(shaderProgram.ID,4,indices,GL_UNIFORM_SIZE,size);
-         for (size_t i = 0; i < 4; i++)
-         {
-             std::cout<<"size[" << i << "] = " << size[i] << std::endl;
-         }
-        
-         GLvoid *buffer = malloc(blockSize);
-         
-         memcpy((char *)buffer + offSet[0],glm::value_ptr(material.ambientColor),3 * sizeof(float));
-         memcpy((char *)buffer + offSet[1],glm::value_ptr(material.diffColor),3 * sizeof(float));
-         memcpy((char *)buffer + offSet[2],glm::value_ptr(material.specColor),3 * sizeof(float));
-         memcpy((char *)buffer + offSet[3],&material.shininess,1 * sizeof(float));
+    // shaderProgram.setFloat("material.shininess",32.0f);
+        //创建聚光灯
+    // shaderProgram.setVec3("spotLight.lightPos",glm::vec3(1.5f,  0.1f,  -1.0f));
+    // shaderProgram.setVec3("spotLight.lightDir",glm::vec3(-1.5f,  -0.1f,  -1.0f));
+    // shaderProgram.setFloat("spotLight.innerCutOff",glm::cos(glm::radians(12.5f)));
+    // shaderProgram.setFloat("spotLight.outerCutOff",glm::cos(glm::radians(17.5f)));
 
-         GLuint materialBuffer;
-         glGenBuffers(1,&materialBuffer);
-         glBindBuffer(GL_UNIFORM_BUFFER,materialBuffer);
-         glBufferData(GL_UNIFORM_BUFFER,blockSize,buffer,GL_STATIC_DRAW);
-         glBindBufferBase(GL_UNIFORM_BUFFER,uniformMaterial,materialBuffer);
-     }
+    //     //设置光照属性
+    // LightFactor lightFactor(glm::vec3(0.3f,0.3f,0.3f),glm::vec3(0.9f,0.9f,0.9f),glm::vec3(1.,1.0,1.0f));
+    // shaderProgram.setVec3("lightFactor.ambientFactor",lightFactor.ambientFactor);
+    // shaderProgram.setVec3("lightFactor.diffFactor",lightFactor.diffFactor);
+    // shaderProgram.setVec3("lightFactor.specFactor",lightFactor.specFactor);
+
+    // glm::mat4 model = glm::mat4(1.0f);
+    // model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+    // model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
+    // shaderProgram.setMat4("transform", camera.getTransformMat());
+    // shaderProgram.setMat4("model", model);
+    // shaderProgram.setMat4("normalRotate", glm::mat4(1.0f));
+    // shaderProgram.setVec3("observePos",camera.getPosition());
     
-    Shader lightShader("shaders/light.vs","shaders/light.fs");
+//    Shader lightShader("shaders/light.vs","shaders/light.fs");
     
-    //初始化顶点数据
-    initVertexData();
-    initLight();
-    //初始化纹理
-    ////
-    unsigned int texture1,texture2;
-    glGenTextures(1,&texture1);
-    glBindTexture(GL_TEXTURE_2D,texture1);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_R,GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    
-    int width,height,nrChannels;
-    char path[128] = ROOT_PATH;
-    unsigned char *data = stbi_load(strcat(path,"resource/container.jpg"), &width, &height, &nrChannels, 0);
-    std::cout<< "width: "<< width << "height: "<< height << "nrChannels: "<< nrChannels << std::endl;
-    if (data) {
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGB,width,height,0,GL_RGB,GL_UNSIGNED_BYTE,data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }else{
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-    
-    glGenTextures(1,&texture2);
-    glBindTexture(GL_TEXTURE_2D,texture2);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_R,GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
-    strcpy(path,ROOT_PATH);
-    stbi_set_flip_vertically_on_load(true);
-    data = stbi_load(strcat(path,"resource/awesomeface.png"), &width, &height, &nrChannels, 0);
-    std::cout<< "width: "<< width << "height: "<< height << "nrChannels: "<< nrChannels << std::endl;
-    if (data) {
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,width,height,0,GL_RGBA,GL_UNSIGNED_BYTE,data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }else{
-        std::cout << "Failed to load texture1" << std::endl;
-    }
-    stbi_image_free(data);
-    //结束
 
     //开启线框模式
-//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
     //统一配置
     glEnable(GL_DEPTH_TEST);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     
-    
-    Camera camera(glm::radians(45.0f),800.0f/450.0f, 0.1f, 100.0f);
-    camera.setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+    //创建摄像机
     float lastFrame = 0.0f;
     float deltaTime = 0.0f;
     // render loop
@@ -288,9 +134,6 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         // input
-        // -----
-        
-//        camera.setRotateX(glfwGetTime());
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
@@ -299,44 +142,13 @@ int main()
 
         // render
         // ------
-        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D,texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D,texture2);
-        
         shaderProgram.use();
-        
-        
+        _model.draw(shaderProgram);
         //绘制物体
-        glm::mat4 trans = glm::mat4(1.0);
-        trans = glm::translate(trans,glm::vec3(0.9,0.9,-5.0f));
-        glm::mat4 rotate = glm::rotate( glm::mat4(1.0f), (float) glfwGetTime(), glm::vec3(1.0,0.0,0.0));
-        glm::mat4 model = trans * rotate;
-
-        shaderProgram.setMat4("transform", camera.getTransformMat());
-        shaderProgram.setMat4("model", model);
-        shaderProgram.setMat4("normalRotate", rotate);
-        shaderProgram.setVec3("observePos",camera.getPosition());
-
-        glad_glBindVertexArray(VAO);
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VEO);
-        glDrawArrays(GL_TRIANGLES,0,36);
         
-        //绘制灯
-        glm::mat4 light = glm::mat4(1.0);
-        light = glm::translate(light,glm::vec3( 1.0f,  1.0f,  -4.0f));
-        light = glm::rotate(light,0.0f , glm::vec3(1.0,1.0,0.0));
-        light = glm::scale(light, glm::vec3(0.1f));
-        lightShader.use();
-        lightShader.setMat4("transform", camera.getTransformMat());
-        lightShader.setMat4("model", light);
-        glBindVertexArray(lightVAO);
-//        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VEO);
-        glDrawArrays(GL_TRIANGLES,0,36);
-//
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
