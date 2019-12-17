@@ -9,14 +9,13 @@
 #ifndef Mesh_hpp
 #define Mesh_hpp
 
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "Shader.hpp"
-
-#include <glad/glad.h>
-
-#include "glm/glm.hpp"
 
 #include <vector>   
 #include <string>

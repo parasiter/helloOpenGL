@@ -1,11 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include <iostream>
-#include <string>
 #include <math.h>
-#include "stb_image.h"
-#include "Shader.hpp"
 #include "macro.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
@@ -77,36 +73,38 @@ int main()
         return -1;
     }
     
-    Camera camera(glm::radians(45.0f),800.0f/450.0f, 0.1f, 100.0f);
-    camera.setPosition(glm::vec3(0.0f, 0.0f, 10.0f));
+    Camera camera(glm::radians(45.0f),(float)SCR_WIDTH/(float)SCR_HEIGHT, 0.1f, 100.0f);
+    camera.setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
     // 编译链接shader
     Shader shaderProgram("shaders/sample.vs","shaders/sample.fs");
     shaderProgram.use();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    glm::mat4 view = glm::translate(glm::mat4(1.0f),glm::vec3(0.0,0.0,-10.0f));
-    shaderProgram.setMat4("projection", projection);
-    shaderProgram.setMat4("view", view);
+    shaderProgram.setMat4("cameraMat",camera.getTransformMat());
+    shaderProgram.setVec3("observePos",camera.getPosition());
 
     // render the loaded model
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+    model = glm::translate(model, glm::vec3(0.0f, -1.75f, -3.0f)); // translate it down so it's at the center of the scene
+    model = glm::rotate(model,glm::radians(45.f),glm::vec3(0.f,1.0f,0.f));
+    //法线矩阵仅考虑旋转
+   shaderProgram.setMat4("normalMat", glm::rotate(glm::mat4(1.0f),glm::radians(45.f),glm::vec3(0.f,1.0f,0.f)));
     model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-    shaderProgram.setMat4("model", model);
+
+    shaderProgram.setMat4("modelMat", model);
     
     Model _model("/Users/bole/client/helloOpenGL/myOpenGL/myOpenGL/resource/nanosuit.obj");
 
-    // shaderProgram.setFloat("material.shininess",32.0f);
+    shaderProgram.setFloat("material.shininess",32.0f);
         //创建聚光灯
-    // shaderProgram.setVec3("spotLight.lightPos",glm::vec3(1.5f,  0.1f,  -1.0f));
-    // shaderProgram.setVec3("spotLight.lightDir",glm::vec3(-1.5f,  -0.1f,  -1.0f));
-    // shaderProgram.setFloat("spotLight.innerCutOff",glm::cos(glm::radians(12.5f)));
-    // shaderProgram.setFloat("spotLight.outerCutOff",glm::cos(glm::radians(17.5f)));
-
+    shaderProgram.setVec3("spotLight.lightPos",glm::vec3(2.f,  5.f,  2.f));
+    shaderProgram.setVec3("spotLight.lightDir",glm::vec3(-2.f,  -4.75f,  -5.0f));
+    shaderProgram.setFloat("spotLight.innerCutOff",glm::cos(glm::radians(12.5f)));
+    shaderProgram.setFloat("spotLight.outerCutOff",glm::cos(glm::radians(17.5f)));
+    shaderProgram.setFloat("spotLight.intensityFactor",1.5f);
     //     //设置光照属性
-    // LightFactor lightFactor(glm::vec3(0.3f,0.3f,0.3f),glm::vec3(0.9f,0.9f,0.9f),glm::vec3(1.,1.0,1.0f));
-    // shaderProgram.setVec3("lightFactor.ambientFactor",lightFactor.ambientFactor);
-    // shaderProgram.setVec3("lightFactor.diffFactor",lightFactor.diffFactor);
-    // shaderProgram.setVec3("lightFactor.specFactor",lightFactor.specFactor);
+    LightFactor lightFactor(glm::vec3(0.3f,0.3f,0.3f),glm::vec3(0.9f,0.9f,0.9f),glm::vec3(1.,1.0,1.0f));
+    shaderProgram.setVec3("lightFactor.ambientFactor",lightFactor.ambientFactor);
+    shaderProgram.setVec3("lightFactor.diffFactor",lightFactor.diffFactor);
+    shaderProgram.setVec3("lightFactor.specFactor",lightFactor.specFactor);
 
     // glm::mat4 model = glm::mat4(1.0f);
     // model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
@@ -142,7 +140,7 @@ int main()
 
         // render
         // ------
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         
         shaderProgram.use();

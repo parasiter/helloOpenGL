@@ -32,13 +32,16 @@ void Mesh::draw(Shader &shader){
     shader.use();
     unsigned int diffuseNum = 1;
     unsigned int specularNum = 1;
+    // std::cout << "textureSize:" <<  textures.size() << std::endl;
     for (unsigned int i = 0; i < textures.size() ; ++i) {
         glActiveTexture(GL_TEXTURE0 + i);
         Texture tex = textures[i];
         glBindTexture(GL_TEXTURE_2D,tex.id);
         if (tex.type == "texture_diffuse") {
+            // std::cout << "uniformName:" <<  "material." + tex.type + std::to_string(diffuseNum) << std::endl;
             shader.setInt("material." + tex.type + std::to_string(diffuseNum++), i);
         }else if(tex.type == "texture_specular"){
+            // std::cout << "uniformName:" <<  "material." + tex.type + std::to_string(specularNum) << std::endl; 
             shader.setInt("material." + tex.type + std::to_string(specularNum++), i);
         }
 
