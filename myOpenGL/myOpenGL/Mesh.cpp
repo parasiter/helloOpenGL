@@ -51,3 +51,27 @@ void Mesh::draw(Shader &shader){
     glBindVertexArray(0);
     glActiveTexture(GL_TEXTURE0);
 }
+
+void Mesh::drawInstance(Shader &shader, unsigned int num){
+    shader.use();
+    unsigned int diffuseNum = 1;
+    unsigned int specularNum = 1;
+    // std::cout << "textureSize:" <<  textures.size() << std::endl;
+    for (unsigned int i = 0; i < textures.size() ; ++i) {
+        glActiveTexture(GL_TEXTURE0 + i);
+        Texture tex = textures[i];
+        glBindTexture(GL_TEXTURE_2D,tex.id);
+        if (tex.type == "texture_diffuse") {
+            // std::cout << "uniformName:" <<  "material." + tex.type + std::to_string(diffuseNum) << std::endl;
+            shader.setInt("material." + tex.type + std::to_string(diffuseNum++), i);
+        }else if(tex.type == "texture_specular"){
+            // std::cout << "uniformName:" <<  "material." + tex.type + std::to_string(specularNum) << std::endl; 
+            shader.setInt("material." + tex.type + std::to_string(specularNum++), i);
+        }
+
+    }
+    glBindVertexArray(VAO);
+    glDrawElementsInstanced(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,0,num);
+    glBindVertexArray(0);
+    glActiveTexture(GL_TEXTURE0);
+}

@@ -14,8 +14,15 @@ void Model::draw(Shader& shader){
     }
 }
 
+void Model::drawInstance(Shader& shader,unsigned int num){
+    for (size_t i = 0; i < meshes.size(); ++i) {
+        meshes[i].drawInstance(shader,num);
+    }
+}
+
 void Model::loadModel(std::string path){
     Assimp::Importer import;
+    path = ROOT_PATH  + path;
     const aiScene *scene = import.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
     
     if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -58,13 +65,14 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
         vector.y = mesh->mVertices[i].y;
         vector.z = mesh->mVertices[i].z;
         vertex.position = vector;
-        
+        // std::cout<< "Vertex:" << vector.x << "," << vector.y << "," << vector.z << std::endl;
+
         vector.x = mesh->mNormals[i].x;
         vector.y = mesh->mNormals[i].y;
         vector.z = mesh->mNormals[i].z;
         vertex.normal = vector;
         
-        
+        // std::cout<< "Normals:" << vector.x << "," << vector.y << "," << vector.z << std::endl;
         if(mesh->mTextureCoords[0]) // 网格是否有纹理坐标？
         {
             glm::vec2 vec;
@@ -84,6 +92,7 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
         for(unsigned int j = 0; j < face.mNumIndices; j++)
         {
             indices.push_back(face.mIndices[j]);
+            // std::cout<< "indices:" << face.mIndices[j] << std::endl;
         }
     }
     // 处理材质
@@ -149,9 +158,8 @@ unsigned int Model::TextureFromFile(const char *path, const std::string &directo
         format = GL_RGB;
         else if (nrComponents == 4)
         format = GL_RGBA;
-        
         glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE , data);
         glGenerateMipmap(GL_TEXTURE_2D);
         
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

@@ -18,6 +18,7 @@
 		50E81EB1239B849A00E646B4 /* glad.c in Sources */ = {isa = PBXBuildFile; fileRef = 50E81EB0239B849A00E646B4 /* glad.c */; };
 		EE184A7A239E2C1A0009D1C0 /* stb_image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE184A78239E2C1A0009D1C0 /* stb_image.cpp */; };
 		EE184A83239F6EDD0009D1C0 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE184A81239F6EDD0009D1C0 /* Camera.cpp */; };
+		EE21C7FE23BDCD53001B9A3E /* EasyDraw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE21C7FC23BDCD53001B9A3E /* EasyDraw.cpp */; };
 		EE76998E239DF85E00AD5B53 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE76998C239DF85E00AD5B53 /* Shader.cpp */; };
 		EEFAEEA223A762CB00E869E4 /* Mesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEFAEEA023A762CB00E869E4 /* Mesh.cpp */; };
 		EEFAEEA523A77C8400E869E4 /* Model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEFAEEA323A77C8400E869E4 /* Model.cpp */; };
@@ -53,12 +54,30 @@
 		EE184A80239E73370009D1C0 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
 		EE184A81239F6EDD0009D1C0 /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		EE184A82239F6EDD0009D1C0 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
+		EE21C7FC23BDCD53001B9A3E /* EasyDraw.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EasyDraw.cpp; sourceTree = "<group>"; };
+		EE21C7FD23BDCD53001B9A3E /* EasyDraw.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = EasyDraw.hpp; sourceTree = "<group>"; };
+		EE21C7FF23BE14DF001B9A3E /* depth.gs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = depth.gs; sourceTree = "<group>"; };
+		EE43EE7A23AA10D800C71D59 /* screen.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = screen.fs; sourceTree = "<group>"; };
+		EE43EE7B23AA10F300C71D59 /* screen.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = screen.vs; sourceTree = "<group>"; };
+		EE51F2F423B2368D0087F8B6 /* sample.gs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample.gs; sourceTree = "<group>"; };
 		EE76998C239DF85E00AD5B53 /* Shader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		EE76998D239DF85E00AD5B53 /* Shader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Shader.hpp; sourceTree = "<group>"; };
 		EE76998F239E01CA00AD5B53 /* sample.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample.vs; sourceTree = "<group>"; };
 		EE769990239E021600AD5B53 /* sample.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample.fs; sourceTree = "<group>"; };
-		EEA2C85923A244E600FF4AA1 /* light.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light.vs; sourceTree = "<group>"; };
-		EEA2C85A23A244F700FF4AA1 /* light.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = light.fs; sourceTree = "<group>"; };
+		EEA2C85923A244E600FF4AA1 /* skyBox.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = skyBox.vs; sourceTree = "<group>"; };
+		EEA2C85A23A244F700FF4AA1 /* skyBox.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = skyBox.fs; sourceTree = "<group>"; };
+		EEB7EA8923B37D9D007170CF /* instance.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = instance.vs; sourceTree = "<group>"; };
+		EEB7EA8A23B37DAD007170CF /* instance.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = instance.fs; sourceTree = "<group>"; };
+		EEB7EA8B23B5AB2A007170CF /* normal.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = normal.vs; sourceTree = "<group>"; };
+		EEB7EA8C23B5AB39007170CF /* normal.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = normal.fs; sourceTree = "<group>"; };
+		EEB7EA8D23B5FF96007170CF /* rock.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = rock.vs; sourceTree = "<group>"; };
+		EED4628E23B0DA710020A908 /* sample_reflect.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = sample_reflect.fs; sourceTree = "<group>"; };
+		EED4628F23B0E9960020A908 /* early_depth_test.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = early_depth_test.vs; sourceTree = "<group>"; };
+		EED4629023B0E9A80020A908 /* early_depth_test.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = early_depth_test.fs; sourceTree = "<group>"; };
+		EEFA804323BA29C100EE4DA9 /* depth.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = depth.vs; sourceTree = "<group>"; };
+		EEFA804423BA2A3400EE4DA9 /* depth.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = depth.fs; sourceTree = "<group>"; };
+		EEFA804523BAEC5F00EE4DA9 /* directionLight.vs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = directionLight.vs; sourceTree = "<group>"; };
+		EEFA804623BAEC6B00EE4DA9 /* directionLight.fs */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = directionLight.fs; sourceTree = "<group>"; };
 		EEFAEEA023A762CB00E869E4 /* Mesh.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Mesh.cpp; sourceTree = "<group>"; };
 		EEFAEEA123A762CB00E869E4 /* Mesh.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Mesh.hpp; sourceTree = "<group>"; };
 		EEFAEEA323A77C8400E869E4 /* Model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Model.cpp; sourceTree = "<group>"; };
@@ -113,6 +132,8 @@
 				EEFAEEA123A762CB00E869E4 /* Mesh.hpp */,
 				EEFAEEA323A77C8400E869E4 /* Model.cpp */,
 				EEFAEEA423A77C8400E869E4 /* Model.hpp */,
+				EE21C7FC23BDCD53001B9A3E /* EasyDraw.cpp */,
+				EE21C7FD23BDCD53001B9A3E /* EasyDraw.hpp */,
 				EE184A7E239E43750009D1C0 /* macro.hpp */,
 				EE184A78239E2C1A0009D1C0 /* stb_image.cpp */,
 				EE184A81239F6EDD0009D1C0 /* Camera.cpp */,
@@ -151,9 +172,25 @@
 			isa = PBXGroup;
 			children = (
 				EE76998F239E01CA00AD5B53 /* sample.vs */,
-				EEA2C85923A244E600FF4AA1 /* light.vs */,
-				EEA2C85A23A244F700FF4AA1 /* light.fs */,
 				EE769990239E021600AD5B53 /* sample.fs */,
+				EE51F2F423B2368D0087F8B6 /* sample.gs */,
+				EEB7EA8D23B5FF96007170CF /* rock.vs */,
+				EEA2C85923A244E600FF4AA1 /* skyBox.vs */,
+				EEA2C85A23A244F700FF4AA1 /* skyBox.fs */,
+				EE43EE7B23AA10F300C71D59 /* screen.vs */,
+				EE43EE7A23AA10D800C71D59 /* screen.fs */,
+				EEB7EA8B23B5AB2A007170CF /* normal.vs */,
+				EEB7EA8C23B5AB39007170CF /* normal.fs */,
+				EEB7EA8923B37D9D007170CF /* instance.vs */,
+				EEB7EA8A23B37DAD007170CF /* instance.fs */,
+				EED4628E23B0DA710020A908 /* sample_reflect.fs */,
+				EED4628F23B0E9960020A908 /* early_depth_test.vs */,
+				EED4629023B0E9A80020A908 /* early_depth_test.fs */,
+				EEFA804323BA29C100EE4DA9 /* depth.vs */,
+				EE21C7FF23BE14DF001B9A3E /* depth.gs */,
+				EEFA804423BA2A3400EE4DA9 /* depth.fs */,
+				EEFA804523BAEC5F00EE4DA9 /* directionLight.vs */,
+				EEFA804623BAEC6B00EE4DA9 /* directionLight.fs */,
 			);
 			path = shaders;
 			sourceTree = "<group>";
@@ -220,6 +257,7 @@
 				EE184A7A239E2C1A0009D1C0 /* stb_image.cpp in Sources */,
 				EE184A83239F6EDD0009D1C0 /* Camera.cpp in Sources */,
 				EEFAEEA523A77C8400E869E4 /* Model.cpp in Sources */,
+				EE21C7FE23BDCD53001B9A3E /* EasyDraw.cpp in Sources */,
 				EE76998E239DF85E00AD5B53 /* Shader.cpp in Sources */,
 				50E81EB1239B849A00E646B4 /* glad.c in Sources */,
 			);

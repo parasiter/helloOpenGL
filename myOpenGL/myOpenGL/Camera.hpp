@@ -16,10 +16,13 @@ class Camera{
 public:
     Camera(float fov,float aspect,float zNear,float zFar);
     // void lookAt(glm::vec3 pos,glm::vec3 lookAt, glm::vec3 up);
-    glm::mat4& getProjection(){ return projectionMat;}
+    glm::mat4& getProjectionMat(){ return projectionMat;}
     glm::mat4& getObserveMat();
     glm::mat4& getCameraToWorldMat();
     glm::mat4& getTransformMat();
+    glm::mat4& getViewMat();
+    float getRotateX();
+    float getRotateY();
 
     void setPosition(glm::vec3 pos);
     glm::vec3& getPosition(){return cameraPos;}
@@ -33,6 +36,7 @@ private:
     glm::mat4 observeMat;
     glm::mat4 cameraToWorldMat;
     glm::mat4 transformMat;
+    glm::mat4 viewMat;
     float rotateX, rotateY;
     glm::mat4 tempTranslateMat,tempRotateXMat,tempRotateYMat;
 };

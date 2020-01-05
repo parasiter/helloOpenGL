@@ -10,6 +10,7 @@
 #define Model_hpp
 
 #include "Mesh.hpp"
+#include "macro.hpp"
 
 #include "stb_image.h"
 #include <assimp/Importer.hpp>
@@ -29,7 +30,8 @@ public:
         loadModel(path);
     }
     void draw(Shader &shader);
-private:
+    void drawInstance(Shader &shader,unsigned int num);
+// private:
     std::vector<Texture> textures_loaded;
     std::vector<Mesh> meshes;
     std::string directory;

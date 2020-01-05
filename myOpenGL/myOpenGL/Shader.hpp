@@ -22,14 +22,18 @@
 
 enum ShaderType{
     VERT_SHADER,
-    FRAG_SHADER
+    FRAG_SHADER,
+    GEO_SHADER
 };
 
 int complieShader(const char* shaderContent, int shaderType);
 
 class Shader{
 public:
+    Shader();
     Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+    Shader(const GLchar* vertexPath, const GLchar* geometry, const GLchar* fragmentPath);
+    std::string getCode(const GLchar* path);
     void use();
     void setBool(const std::string &name, bool value) const;
     void setInt(const std::string &name, int value) const;

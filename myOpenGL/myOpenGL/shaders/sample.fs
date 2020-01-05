@@ -38,7 +38,7 @@ void main()
 
     float theta = dot(normalize(FragPos - spotLight.lightPos),normalize(spotLight.lightDir));
     float intensity =  clamp((theta - spotLight.outerCutOff)/(spotLight.innerCutOff - spotLight.outerCutOff),0.f,1.f);
-    vec3 diffFactor = lightFactor.diffFactor * intensity*2.0f;
+    vec3 diffFactor = lightFactor.diffFactor * intensity*3.0f;
     vec3 specFactor = lightFactor.specFactor * intensity;
     //漫反射
     vec3 lightDir = normalize(spotLight.lightPos - FragPos);

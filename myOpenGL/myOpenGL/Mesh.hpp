@@ -51,7 +51,8 @@ public:
         setupMesh();
     }
     void draw(Shader &shader);
-private:
+    void drawInstance(Shader &shader, unsigned int num);
+// private:
     unsigned int VAO, VBO, VEO;
     void setupMesh();
 };

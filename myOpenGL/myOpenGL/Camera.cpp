@@ -11,7 +11,7 @@
 Camera::Camera(float fov,float aspect,float zNear,float zFar){
     projectionMat = glm::perspective(fov, aspect, zNear, zFar);
     isDirty = false;
-    observeMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(0.0f, 0.0f, -3.0f) , glm::vec3(0.0f, 1.0f, 0.0f));
+    observeMat = glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f),glm::vec3(0.0f, 0.0f, -1.0f) , glm::vec3(0.0f, 1.0f, 0.0f));
     cameraToWorldMat = glm::mat4(1.0f);
     transformMat = projectionMat*observeMat*cameraToWorldMat;
     rotateX = 0.0f;
@@ -39,10 +39,18 @@ void Camera::setRotateX(const float radian){
     isDirty = true;
 }
 
+float Camera::getRotateX(){
+    return rotateX;
+}
+
 void Camera::setRotateY(const float radian){
     rotateY = radian;
     tempRotateYMat = glm::rotate(glm::mat4(1.0f),-rotateY,glm::vec3(0.0,1.0,0.0));
     isDirty = true;
+}
+
+float Camera::getRotateY(){
+    return rotateY;
 }
 
 glm::mat4& Camera::getObserveMat(){
@@ -61,3 +69,9 @@ glm::mat4& Camera::getCameraToWorldMat(){
     }
     return cameraToWorldMat;
 }
+
+glm::mat4& Camera::getViewMat(){
+    viewMat = observeMat * getCameraToWorldMat();
+    return viewMat;
+}
+
